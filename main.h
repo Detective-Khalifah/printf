@@ -1,6 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 #include <stdarg.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -39,6 +40,23 @@ struct fmt
  */
 typedef struct fmt fmt_t;
 
+/**
+ * struct argsList - structure for our format and the corresponding function
+ * @ch: pointer to a character
+ * @f: pointer to a function
+ */
+typedef struct argsList
+{
+	char *ch;
+	int (*f)(va_list arg);
+} args_t;
+int (*check_specifier(const char *c))(va_list arg);
+int print_character(va_list arg);
+int print_string(va_list arg);
+int print_percent(va_list arg);
+int print_decimal(va_list arg);
+int print_integer(va_list arg);
+
 int _putchar(char c);
 
 int _printf(const char *format, ...);
@@ -57,14 +75,8 @@ int get_size(const char *format, int *i);
 /* Funtions to print chars and strings */
 int print_char(va_list types, char buffer[],
 int flags, int width, int precision, int size);
-int print_string(va_list types, char buffer[],
-int flags, int width, int precision, int size);
-int print_percent(va_list types, char buffer[],
-int flags, int width, int precision, int size);
 
 /* Functions to print numbers */
-int print_int(va_list types, char buffer[],
-int flags, int width, int precision, int size);
 int print_binary(va_list types, char buffer[],
 int flags, int width, int precision, int size);
 int print_unsigned(va_list types, char buffer[],
