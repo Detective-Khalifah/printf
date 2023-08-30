@@ -1,4 +1,5 @@
 #include "main.h"
+#include <string.h>
 
 /**
  * check_specifier - return a pointer with the matching format
@@ -17,7 +18,7 @@ int check_specifier(va_list args, char specifier)
 	}
 	else if (specifier == 's')
 	{
-		char *str = va_args(args, char *);
+		char *str = va_arg(args, char *);
 		if (str == NULL)
 			str = "(null)";
 		istring(str);

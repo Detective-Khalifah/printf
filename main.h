@@ -9,7 +9,7 @@
 int _putchar(int c);
 int icharacter(int ch);
 void istring(char * str);
-void idigit(long n, int base);
+int idigit(long n, int base);
 void inscribe(const char * format, ...);
 int check_specifier(va_list args, char specifier);
 
