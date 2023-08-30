@@ -12,63 +12,103 @@ int check_specifier(va_list args, char specifier)
 {
 	int count = 0;
 
-	if (specifier == 'c')
-	{
-		count += icharacter(va_arg(args, int));
-	}
-	else if (specifier == 's')
-	{
-		char *str = va_arg(args, char *);
-		if (str == NULL)
-			str = "(null)";
-		istring(str);
-		count += strlen(str);
-	}
-	else if (specifier == '%')
+	if (specifier == '%')
 	{
 		count += icharacter('%');
 	}
-	else if (specifier == 'd' || specifier == 'i')
-	{
-		int num = va_arg(args, int);
-        if (num < 0)
-        {
-            count += icharacter('-');
-            num = -num;
-        }
-        count += idigit((long)num, 10);
-	}
-	else if (specifier == 'b')
-    {
-        unsigned int num = va_arg(args, unsigned int);
-        count += idigit((long)num, 2);
-    }
-    else if (specifier == 'u')
-    {
-        unsigned int num = va_arg(args, unsigned int);
-        count += idigit((long)num, 10);
-    }
-    else if (specifier == 'o')
-    {
-        unsigned int num = va_arg(args, unsigned int);
-        count += idigit((long)num, 8);
-    }
-    else if (specifier == 'x')
-    {
-        unsigned int num = va_arg(args, unsigned int);
-        count += idigit((long)num, 16);
-    }
-    else if (specifier == 'X')
-    {
-        unsigned int num = va_arg(args, unsigned int);
-        count += idigit((long)num, 16);
-    }
 	else
 	{
-		icharacter('%');
-		icharacter(specifier);
-		count +=2;
+		process_specifier(args, specifier);
 	}
+
+	return (count);
+}
+
+
+/**
+ * process_specifier - process the format specifier and print accordingly
+ * @args: va_list with arguments
+ * @specifier: format specifier
+ *
+ * Return: number of characters printed (excluding the null byte)
+ */
+int process_specifier(va_list args, char specifier)
+{
+	switch (specifier)
+	{
+		case 'c':
+			return (process_char(args));
+		case 's':
+			return (process_string(args));
+		case 'd':
+		case 'i':
+			return (process_int(args));
+		case 'u':
+			return (process_unsigned_int(args));
+		case 'o':
+			return (process_octal(args));
+		case 'x':
+		case 'X':
+			return (process_hex(args));
+		case 'b':
+			return (process_binary(args));
+		default:
+			return (process_unknown(specifier));
+		}
+}
+
+/**
+ * process_char - process the character specifier
+ * @args: va_list with arguments
+ *
+ * Return: number of characters printed (excluding the null byte)
+ */
+int process_char(va_list args)
+{
+	int count = 0;
+	int ch = va_arg(args, int);
+
+	count += icharacter(ch);
+
+	return (count);
+}
+
+/**
+ * process_string - process the string specifier
+ * @args: va_list with arguments
+ *
+ * Return: number of characters printed (excluding the null byte)
+ */
+int process_string(va_list args)
+{
+	int count = 0;
+	char *str = va_arg(args, char *);
+
+	if (str == NULL)
+		str = "(null)";
+	istring(str);
+	count += strlen(str);
+
+	return (count);
+}
+
+/**
+ * process_int - process the iny specifier
+ * @args: va_list with arguments
+ *
+ * Return: number of characters printed (excluding the null byte)
+ */
+int process_int(va_list args)
+{
+	int count = 0;
+	int num = va_arg(args, int);
+
+	if (num < 0)
+	{
+		count += icharacter('-');
+		num = -num;
+	}
+	count += idigit((long)num, 10);
 
 	return (count);
 }
