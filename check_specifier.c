@@ -40,10 +40,11 @@ int check_specifier(va_list args, char specifier)
  * process_specifier - process the format specifier and print accordingly
  * @args: va_list with arguments
  * @specifier: format specifier
+ * @flags: for non-custom conversion specifiers
  *
  * Return: number of characters printed (excluding the null byte)
  */
-int process_specifier(va_list args, char specifier)
+int process_specifier(va_list args, char specifier, char flags)
 {
 	switch (specifier)
 	{
@@ -53,14 +54,14 @@ int process_specifier(va_list args, char specifier)
 			return (process_string(args));
 		case 'd':
 		case 'i':
-			return (process_int(args));
+			return (process_int(args, flags));
 		case 'u':
 			return (process_unsigned_int(args));
 		case 'o':
-			return (process_octal(args));
+			return (process_octal(args, flags));
 		case 'x':
 		case 'X':
-			return (process_hex(args));
+			return (process_hex(args, flags));
 		case 'b':
 			return (process_binary(args));
 		case 'S':
@@ -110,10 +111,11 @@ int process_string(va_list args)
 /**
  * process_int - process the iny specifier
  * @args: va_list with arguments
+ * @flags: for non-custom conversion specifiers
  *
  * Return: number of characters printed (excluding the null byte)
  */
-int process_int(va_list args)
+int process_int(va_list args, char flags)
 {
 	int count = 0;
 	int num = va_arg(args, int);
@@ -123,6 +125,15 @@ int process_int(va_list args)
 		count += icharacter('-');
 		num = -num;
 	}
+	else if (flags == '+')
+	{
+		count += icharacter('+');
+	}
+	else if (flags == ' ')
+	{
+		count += icharacter(' ');
+	}
+
 	count += idigit((long)num, 10);
 
 	return (count);

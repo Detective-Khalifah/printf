@@ -19,13 +19,19 @@ int process_unsigned_int(va_list args)
 /**
  * process_octal - process the octal specifier
  * @args: va_list with arguments
+ * @flags: for non-custom conversion specifiers
  *
  * Return: number of characters printed (excluding the null byte)
  */
-int process_octal(va_list args)
+int process_octal(va_list args, char flags)
 {
 	int count = 0;
 	unsigned int num = va_arg(args, unsigned int);
+
+	if (flags == '#')
+	{
+		count += _putchar('0');
+	}
 
 	count += idigit((long)num, 8);
 
@@ -35,13 +41,20 @@ int process_octal(va_list args)
 /**
  * process_hex - process the hexadecimal character specifier
  * @args: va_list with arguments
+ * @flags: for non-custom conversion specifiers
  *
  * Return: number of characters printed (excluding the null byte)
  */
-int process_hex(va_list args)
+int process_hex(va_list args, char flags)
 {
 	int count = 0;
 	unsigned int num = va_arg(args, unsigned int);
+
+	if (flags == '#')
+	{
+		count += _putchar('0');
+		count += _putchar('x');
+	}
 
 	count += idigit((long)num, 16);
 
