@@ -29,7 +29,7 @@ int check_specifier(va_list args, char specifier)
 	}
 	else
 	{
-		process_specifier(args, specifier);
+		count += process_specifier(args, specifier);
 	}
 
 	return (count);
@@ -65,6 +65,8 @@ int process_specifier(va_list args, char specifier)
 			return (process_binary(args));
 		case 'S':
 			return (process_string_escape(args));
+		case 'p':
+			return (process_pointer(args));
 		default:
 			return (process_unknown(specifier));
 		}

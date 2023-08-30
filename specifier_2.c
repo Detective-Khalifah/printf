@@ -33,3 +33,23 @@ int process_string_escape(va_list args)
 	return (count);
 }
 
+#include "main.h"
+
+/**
+ * process_pointer - process the pointer specifier
+ * @args: va_list with arguments
+ *
+ * Return: number of characters printed (excluding the null byte)
+ */
+int process_pointer(va_list args)
+{
+	int count = 0;
+	void *ptr = va_arg(args, void *);
+
+	count += _putchar('0');
+	count += _putchar('x');
+	count += idigit((unsigned long)ptr, 16);
+
+	return (count);
+}
+
