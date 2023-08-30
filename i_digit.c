@@ -8,13 +8,13 @@
  */
 void idigit(long n, int base)
 {
-	char *symbols = "0123456789abcdef";
+	char *symbols = "0123456789ABCDEF";
 	char buffer[32];
 	int index = 0, i = index -1;
 
 	if (n < 0)
 	{
-		write(1, "-", 1);
+		icharacter('-');
 		n = -n;
 	}
 

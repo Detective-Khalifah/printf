@@ -7,11 +7,11 @@
 #include <unistd.h>
 
 int _putchar(int c);
-void icharacter(int ch);
+int icharacter(int ch);
 void istring(char * str);
 void idigit(long n, int base);
 void inscribe(const char * format, ...);
-void check_specifier(va_list args, char specifier);
+int check_specifier(va_list args, char specifier);
 
 #define UNUSED(x) (void)(x)
 #define BUFF_SIZE 1024

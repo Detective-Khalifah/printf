@@ -2,19 +2,30 @@
 
 /**
  * check_specifier - return a pointer with the matching format
- * @c: format specifier
- * Return: pointer a pointer to a function
+ * @args: va_list with arguments
+ * @specifier: format specifier
+ *
+ * Return: number of characters printed (excluding the null byte)
  */
-void check_specifier(va_list args, char specifier)
+int check_specifier(va_list args, char specifier)
 {
+	int count = 0;
 
 	if (specifier == 'c')
 	{
-		_putchar(va_arg(args, int));
+		count += icharacter(va_arg(args, int));
 	}
 	else if (specifier == 's')
 	{
-		istring(va_arg(args, char*));
+		char *str = va_args(args, char *);
+		if (str == NULL)
+			str = "(null)";
+		istring(str);
+		count += strlen(str);
+	}
+	else if (specifier == '%')
+	{
+		count += icharacter('%');
 	}
 	else if (specifier == 'd')
 	{
@@ -24,7 +35,13 @@ void check_specifier(va_list args, char specifier)
 	{
 		idigit((long) va_arg(args, unsigned int), 16);
 	}
+	else
+	{
+		icharacter('%');
+		icharacter(specifier);
+		count +=2;
+	}
 
-	/* return (NULL); */
+	return (count);
 }
 

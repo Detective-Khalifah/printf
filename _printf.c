@@ -5,11 +5,11 @@
  * according to some (specified) format.
  * @format: the format. A string -- character array with specifiers.
  *
- * Return: number of printed characters.
+ * Return: number of printed characters printed (excluding the null byte)
  */
 int _printf(const char *format, ...)
 {
-	int count = 0;
+	int count = 0; /* Initialize character count */
 	va_list arg;
 
 	va_start(arg, format);
@@ -18,12 +18,15 @@ int _printf(const char *format, ...)
 	{
 		if (*format == '%')
 		{
-			check_specifier(arg, *(++format));
-			break;
+			format++; /* Move past '%' */
+			if (*format == '\0')
+				break; /* Handle cases where '%' is at the end of the string */
+
+			count += check_specifier(arg, *format);
 		}
 		else
 		{
-			icharacter(*format);
+			count += icharacter(*format); /* Print regular characters */
 		}
 
 		format++;
