@@ -1,6 +1,16 @@
 #include "main.h"
 #include <string.h>
 
+int process_specifier(va_list args, char specifier);
+int process_unknown(char specifier);
+int process_hex(va_list args);
+int process_octal(va_list args);
+int process_binary(va_list args);
+int process_unsigned_int(va_list args);
+int process_int(va_list args);
+int process_string(va_list args);
+int process_char(va_list args);
+
 /**
  * check_specifier - return a pointer with the matching format
  * @args: va_list with arguments

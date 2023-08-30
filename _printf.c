@@ -1,5 +1,7 @@
 #include "main.h"
 
+int print_format(const char *format, va_list args);
+
 /**
  * _printf - clone printf function; writes output to standard output stream
  * according to some (specified) format.
@@ -29,7 +31,7 @@ int _printf(const char *format, ...)
  */
 int print_format(const char *format, va_list args)
 {
-	int count = 0;
+	int count = 0, chars_written;
 	char buffer[1024]; /* Local buffer to accumulate characters */
 	int buffer_index = 0; /* Index for the local buffer */
 
@@ -47,7 +49,7 @@ int print_format(const char *format, va_list args)
 			if (*format == '\0')
 				break; /* Handle cases where '%' is at the end of the string */
 
-			int chars_written = check_specifier(arg, *format);
+			chars_written = check_specifier(args, *format);
 
 			if (chars_written > 0)
 			{
@@ -69,5 +71,7 @@ int print_format(const char *format, va_list args)
 	{
 		write(1, buffer, buffer_index);
 	}
+	
+	return (count);
 }
 
