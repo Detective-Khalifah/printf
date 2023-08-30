@@ -13,35 +13,27 @@ int _printf(const char *format, ...)
 	va_list arg;
 
 	va_start(arg, format);
+
 	i = 0;
 
-	while (*(format + i))
+	while (*format != '\0')
 	{
-		if (format[i] != '%')
+		if (*format == '%')
 		{
-			value = _putchar(format[i]);
-			count += value;
-			i++;
+			format++;
+			_putchar(va_arg(arg, int));
+			break;
 		}
-		if (format[i] == '%')
+		else
 		{
-			func = check_specifier(&format[i + 1]);
-			if (func != NULL)
-			{
-				value = func(arg);
-				count += value;
-				i += 2;
-			}
-			else
-			{
-				value = _putchar(format[i]);
-				count += value;
-				i++;
-			}
+			_putchar(*format);
 		}
+
+		format++;
 	}
 
 	va_end(arg);
+
 
 	return (count);
 }

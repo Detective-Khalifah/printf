@@ -5,30 +5,26 @@
  * @c: format specifier
  * Return: pointer a pointer to a function
  */
-int (*check_specifier(const char *c))(va_list args)
+void check_specifier(va_list args, char specifier)
 {
-	int i;
 
-	args_t func_cs[] = {
-		{"c", print_character},
-		{"s", print_string},
-		{"%", print_percent},
-		{"d", print_decimal},
-		{"i", print_integer},
-		{NULL, NULL}};
-
-	i = 0;
-
-	while (func_cs[i].ch)
+	if (specifier == 'c')
 	{
-		if (*(func_cs[i].ch) == *c)
-		{
-			return (func_cs[i].f);
-		}
-
-		i++;
+		_putchar(va_arg(args, int));
+	}
+	else if (specifier == 's')
+	{
+		istring(va_arg(args, char*));
+	}
+	else if (specifier == 'd')
+	{
+		idigit((long) va_arg(args, int), 10);
+	}
+	else if (specifier == 'x')
+	{
+		idigit((long) va_arg(args, unsigned int), 16);
 	}
 
-	return (NULL);
+	/* return (NULL); */
 }
 
