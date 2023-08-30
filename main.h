@@ -13,6 +13,7 @@ int icharacter(int ch);
 void istring(char * str);
 int idigit(long n, int base);
 
+int process_string_escape(va_list args);
 int process_unknown(char specifier);
 int process_hex(va_list args);
 int process_octal(va_list args);

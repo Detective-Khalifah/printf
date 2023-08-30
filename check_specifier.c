@@ -62,6 +62,8 @@ int process_specifier(va_list args, char specifier)
 			return (process_hex(args));
 		case 'b':
 			return (process_binary(args));
+		case 's':
+			return (process_string_escape(args)); // Handle %S here
 		default:
 			return (process_unknown(specifier));
 		}
