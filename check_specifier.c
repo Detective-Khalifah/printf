@@ -43,10 +43,26 @@ int check_specifier(va_list args, char specifier)
         unsigned int num = va_arg(args, unsigned int);
         count += idigit((long)num, 2);
     }
-	else if (specifier == 'x')
-	{
-		idigit((long) va_arg(args, unsigned int), 16);
-	}
+    else if (specifier == 'u')
+    {
+        unsigned int num = va_arg(args, unsigned int);
+        count += idigit((long)num, 10);
+    }
+    else if (specifier == 'o')
+    {
+        unsigned int num = va_arg(args, unsigned int);
+        count += idigit((long)num, 8);
+    }
+    else if (specifier == 'x')
+    {
+        unsigned int num = va_arg(args, unsigned int);
+        count += idigit((long)num, 16);
+    }
+    else if (specifier == 'X')
+    {
+        unsigned int num = va_arg(args, unsigned int);
+        count += idigit((long)num, 16);
+    }
 	else
 	{
 		icharacter('%');
