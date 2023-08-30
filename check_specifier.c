@@ -27,10 +27,21 @@ int check_specifier(va_list args, char specifier)
 	{
 		count += icharacter('%');
 	}
-	else if (specifier == 'd')
+	else if (specifier == 'd' || specifier == 'i')
 	{
-		idigit((long) va_arg(args, int), 10);
+		int num = va_arg(args, int);
+        if (num < 0)
+        {
+            count += icharacter('-');
+            num = -num;
+        }
+        count += idigit((long)num, 10);
 	}
+	else if (specifier == 'b')
+    {
+        unsigned int num = va_arg(args, unsigned int);
+        count += idigit((long)num, 2);
+    }
 	else if (specifier == 'x')
 	{
 		idigit((long) va_arg(args, unsigned int), 16);
