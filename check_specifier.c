@@ -1,14 +1,15 @@
 #include "main.h"
 #include <string.h>
 
-int process_specifier(va_list args, char specifier);
+int process_specifier(va_list args, char specifier, char flags, char length);
+int process_pointer(va_list args);
 int process_string_escape(va_list args);
 int process_unknown(char specifier);
-int process_hex(va_list args);
-int process_octal(va_list args);
+int process_hex(va_list args, char flags, char length);
+int process_octal(va_list args, char flags, char length);
 int process_binary(va_list args);
 int process_unsigned_int(va_list args);
-int process_int(va_list args);
+int process_int(va_list args, char flags, char length);
 int process_string(va_list args);
 int process_char(va_list args);
 
@@ -16,10 +17,12 @@ int process_char(va_list args);
  * check_specifier - return a pointer with the matching format
  * @args: va_list with arguments
  * @specifier: format specifier
+ * @flags: flags for formatting
+ * @length: length modifier (l or h)
  *
  * Return: number of characters printed (excluding the null byte)
  */
-int check_specifier(va_list args, char specifier)
+int check_specifier(va_list args, char specifier, char flags, char length)
 {
 	int count = 0;
 
@@ -29,7 +32,7 @@ int check_specifier(va_list args, char specifier)
 	}
 	else
 	{
-		count += process_specifier(args, specifier);
+		count += process_specifier(args, specifier, flags, length);
 	}
 
 	return (count);
@@ -112,8 +115,8 @@ int process_string(va_list args)
 /**
  * process_int - process the iny specifier
  * @args: va_list with arguments
- * @flags: for non-custom conversion specifiers
- * @length: for width
+ * @flags: flags for formatting
+ * @length: length modifier (l or h)
  *
  * Return: number of characters printed (excluding the null byte)
  */

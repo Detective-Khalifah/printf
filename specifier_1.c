@@ -19,14 +19,28 @@ int process_unsigned_int(va_list args)
 /**
  * process_octal - process the octal specifier
  * @args: va_list with arguments
- * @flags: for non-custom conversion specifiers
+ * @flags: flags for formatting
+ * @length: length modifier (l or h)
  *
  * Return: number of characters printed (excluding the null byte)
  */
-int process_octal(va_list args, char flags)
+int process_octal(va_list args, char flags, char length)
 {
 	int count = 0;
-	unsigned int num = va_arg(args, unsigned int);
+	unsigned int num;
+
+	if (length == 'l')
+	{
+		num = va_arg(args, unsigned long int);
+	}
+	else if (length == 'h')
+	{
+		num = (unsigned short int)va_arg(args, unsigned int);
+	}
+	else
+	{
+		num = va_arg(args, unsigned int);
+	}
 
 	if (flags == '#')
 	{
@@ -41,14 +55,28 @@ int process_octal(va_list args, char flags)
 /**
  * process_hex - process the hexadecimal character specifier
  * @args: va_list with arguments
- * @flags: for non-custom conversion specifiers
+ * @flags: flags for formatting
+ * @length: length modifier (l or h)
  *
  * Return: number of characters printed (excluding the null byte)
  */
-int process_hex(va_list args, char flags)
+int process_hex(va_list args, char flags, char length)
 {
 	int count = 0;
-	unsigned int num = va_arg(args, unsigned int);
+	unsigned int num;
+
+	if (length == 'l')
+	{
+		num = va_arg(args, unsigned long int);
+	}
+	else if (length == 'h')
+	{
+		num = (unsigned short int)va_arg(args, unsigned int);
+	}
+	else
+	{
+		num = va_arg(args, unsigned int);
+	}
 
 	if (flags == '#')
 	{

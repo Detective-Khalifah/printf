@@ -34,6 +34,8 @@ int print_format(const char *format, va_list args)
 	int count = 0, chars_written;
 	char buffer[1024]; /* Local buffer to accumulate characters */
 	int buffer_index = 0; /* Index for the local buffer */
+	char flags = '\0';
+	char length = '\0';
 
 	while (*format != '\0')
 	{
@@ -49,7 +51,20 @@ int print_format(const char *format, va_list args)
 			if (*format == '\0')
 				break; /* Handle cases where '%' is at the end of the string */
 
-			chars_written = check_specifier(args, *format);
+			/* Parse flags and length modifier if present */
+			if (*format == '+' || *format == ' ' || *format == '#')
+			{
+				flags = *format;
+				format++;
+			}
+
+			if (*format == 'l' || *format == 'h')
+			{
+				length = *format;
+				format++;
+			}
+
+			chars_written = check_specifier(args, *format, flags, length);
 
 			if (chars_written > 0)
 			{
