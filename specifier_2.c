@@ -8,18 +8,20 @@
  */
 int process_string_escape(va_list args)
 {
-	int count = 0;
+	int count = 0, i = 0;
 	char *str = va_arg(args, char *);
 
 	if (str == NULL)
 		str = "(null)";
 
-	for (int i = 0; str[i] != '\0'; i++)
+	for (; str[i] != '\0'; i++)
 	{
 		if (str[i] < ' ' || str[i] >= 127)
 		{
 			count += _putchar('\\');
 			count += _putchar('x');
+			if (str[i] < 16)
+				count += _putchar('0');
 			count += idigit((long)str[i], 16);
 		}
 		else

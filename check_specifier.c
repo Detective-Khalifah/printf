@@ -2,6 +2,7 @@
 #include <string.h>
 
 int process_specifier(va_list args, char specifier);
+int process_string_escape(va_list args);
 int process_unknown(char specifier);
 int process_hex(va_list args);
 int process_octal(va_list args);
@@ -62,8 +63,8 @@ int process_specifier(va_list args, char specifier)
 			return (process_hex(args));
 		case 'b':
 			return (process_binary(args));
-		case 's':
-			return (process_string_escape(args)); // Handle %S here
+		case 'S':
+			return (process_string_escape(args));
 		default:
 			return (process_unknown(specifier));
 		}
