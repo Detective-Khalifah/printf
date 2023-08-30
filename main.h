@@ -58,7 +58,6 @@ typedef struct argsList
 	char *ch;
 	int (*f)(va_list arg);
 } args_t;
-// int (*check_specifier(const char *c))(va_list arg);
 int print_character(va_list arg);
 int print_string(va_list arg);
 int print_percent(va_list arg);

@@ -9,24 +9,21 @@
  */
 int _printf(const char *format, ...)
 {
-	int i, count = 0, value, (*func)(va_list);
+	int count = 0;
 	va_list arg;
 
 	va_start(arg, format);
-
-	i = 0;
 
 	while (*format != '\0')
 	{
 		if (*format == '%')
 		{
-			format++;
-			_putchar(va_arg(arg, int));
+			check_specifier(arg, *(++format));
 			break;
 		}
 		else
 		{
-			_putchar(*format);
+			icharacter(*format);
 		}
 
 		format++;

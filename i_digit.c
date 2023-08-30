@@ -9,6 +9,8 @@
 void idigit(long n, int base)
 {
 	char *symbols = "0123456789abcdef";
+	char buffer[32];
+	int index = 0, i = index -1;
 
 	if (n < 0)
 	{
@@ -16,12 +18,9 @@ void idigit(long n, int base)
 		n = -n;
 	}
 
-	char buffer[32];
-	int index = 0;
-
 	if (n == 0)
 	{
-		buffer[index] - symbols[0];
+		buffer[index] = symbols[0];
 		index++;
 	}
 
@@ -34,7 +33,7 @@ void idigit(long n, int base)
 			index++;
 		}
 
-		for (int i = index - 1; i >= 0; i--)
+		for (; i >= 0; i--)
 		{
 			icharacter(buffer[i]);
 		}

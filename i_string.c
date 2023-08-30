@@ -8,7 +8,7 @@ void istring(char *str)
 {
 	while (*str != '\0')
 	{
-		icaracter((int)(*str));
+		icharacter((int)(*str));
 		str++;
 	}
 }
