@@ -125,13 +125,16 @@ int process_int(va_list args, char flags)
 		count += icharacter('-');
 		num = -num;
 	}
-	else if (flags == '+')
+	else if (num >= 0)
 	{
-		count += icharacter('+');
-	}
-	else if (flags == ' ')
-	{
-		count += icharacter(' ');
+		if (flags == '+')
+		{
+			count += icharacter('+');
+		}
+		else if (flags == ' ')
+		{
+			count += icharacter(' ');
+		}
 	}
 
 	count += idigit((long)num, 10);
