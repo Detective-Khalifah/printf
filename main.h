@@ -10,7 +10,7 @@
 
 int _putchar(int c);
 int icharacter(int ch);
-void istring(char * str);
+void istring(char *str);
 int idigit(long n, int base);
 
 int process_string_escape(va_list args);

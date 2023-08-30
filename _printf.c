@@ -71,7 +71,7 @@ int print_format(const char *format, va_list args)
 	{
 		write(1, buffer, buffer_index);
 	}
-	
+
 	return (count);
 }
 

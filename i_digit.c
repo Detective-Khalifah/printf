@@ -9,40 +9,40 @@
  */
 int idigit(long n, int base)
 {
-    char *symbols = "0123456789ABCDEF";
-    char buffer[32];
-    int index = 0, i = index - 1;
-    int count = 0; /* Initialize character count */
+	char *symbols = "0123456789ABCDEF";
+	char buffer[32];
+	int index = 0, i = index - 1;
+	int count = 0; /* Initialize character count */
 
-    if (n < 0)
-    {
-        icharacter('-');
-        n = -n;
-        count++;
-    }
+	if (n < 0)
+	{
+		icharacter('-');
+		n = -n;
+		count++;
+	}
 
-    if (n == 0)
-    {
-        buffer[index] = symbols[0];
-        index++;
-        count++;
-    }
-    else
-    {
-        while (n > 0)
-        {
-            buffer[index] = symbols[n % base];
-            n /= base;
-            index++;
-        }
+	if (n == 0)
+	{
+		buffer[index] = symbols[0];
+		index++;
+		count++;
+	}
+	else
+	{
+		while (n > 0)
+		{
+			buffer[index] = symbols[n % base];
+			n /= base;
+			index++;
+		}
 
-        for (; i >= 0; i--)
-        {
-            icharacter(buffer[i]);
-            count++;
-        }
-    }
+		for (; i >= 0; i--)
+		{
+			icharacter(buffer[i]);
+			count++;
+		}
+	}
 
-    return count;
+	return (count);
 }
 
