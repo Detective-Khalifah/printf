@@ -27,6 +27,8 @@ void check_specifier(va_list args, char specifier);
 #define S_LONG 2
 #define S_SHORT 1
 
+#define INT_MAX 2147483647
+
 /**
  * struct fmt - Struct op
  *
