@@ -1,18 +1,6 @@
 #include "main.h"
 #include <string.h>
 
-int process_specifier(va_list args, char specifier, char flags, char length);
-int process_pointer(va_list args);
-int process_string_escape(va_list args);
-int process_unknown(char specifier);
-int process_hex(va_list args, char flags, char length);
-int process_octal(va_list args, char flags, char length);
-int process_binary(va_list args);
-int process_unsigned_int(va_list args);
-int process_int(va_list args, char flags, char length);
-int process_string(va_list args);
-int process_char(va_list args);
-
 /**
  * check_specifier - return a pointer with the matching format
  * @args: va_list with arguments
@@ -53,9 +41,9 @@ int process_specifier(va_list args, char specifier, char flags, char length)
 	switch (specifier)
 	{
 		case 'c':
-			return (process_char(args));
+			return (process_char(args, flags, length));
 		case 's':
-			return (process_string(args));
+			return (process_string(args, flags, length));
 		case 'd':
 		case 'i':
 			return (process_int(args, flags, length));
@@ -80,15 +68,32 @@ int process_specifier(va_list args, char specifier, char flags, char length)
 /**
  * process_char - process the character specifier
  * @args: va_list with arguments
+ * @flags: flags for formatting
+ * @length: length modifier (l or h)
  *
  * Return: number of characters printed (excluding the null byte)
  */
-int process_char(va_list args)
+int process_char(va_list args, char flags, char length)
 {
 	int count = 0;
 	int ch = va_arg(args, int);
 
-	count += icharacter(ch);
+	if (length > 0)
+	{
+		int padding = length - 1;
+		if (flags == '-')
+			count += icharacter(ch);
+		while (padding--)
+		{
+			count += icharacter(' ');
+		}
+		if (flags != '-')
+			count += icharacter(ch);
+	}
+	else
+	{
+		count += icharacter(ch);
+	}
 
 	return (count);
 }
@@ -96,18 +101,38 @@ int process_char(va_list args)
 /**
  * process_string - process the string specifier
  * @args: va_list with arguments
+ * @flags: flags for formatting
+ * @length: length modifier (l or h)
  *
  * Return: number of characters printed (excluding the null byte)
  */
-int process_string(va_list args)
+int process_string(va_list args, char flags, char length)
 {
-	int count = 0;
+	int count = 0, str_len;
 	char *str = va_arg(args, char *);
 
 	if (str == NULL)
 		str = "(null)";
-	istring(str);
-	count += strlen(str);
+
+	str_len = strlen(str);
+	if (length > 0 && length > str_len)
+	{
+		int padding = length - str_len;
+		if (flags == '-')
+			istring(str);
+		while (padding--)
+		{
+			count += icharacter(' ');
+		}
+		if (flags != '-')
+			istring(str);
+		count += length;
+	}
+	else
+	{
+		istring(str);
+		count += strlen(str);
+	}
 
 	return (count);
 }
@@ -116,27 +141,14 @@ int process_string(va_list args)
  * process_int - process the iny specifier
  * @args: va_list with arguments
  * @flags: flags for formatting
- * @length: length modifier (l or h)
+ * @width: field width
  *
  * Return: number of characters printed (excluding the null byte)
  */
-int process_int(va_list args, char flags, char length)
+int process_int(va_list args, char flags, int width)
 {
 	int count = 0;
-	long int num;
-
-	if (length == 'l')
-	{
-		num = va_arg(args, long int);
-	}
-	else if (length == 'h')
-	{
-		num = (short int)va_arg(args, int); /* use short int */
-	}
-	else
-	{
-		num = va_arg(args, int);
-	}
+	long int num = va_arg(args, long int);
 
 	if (num < 0)
 	{
@@ -155,7 +167,7 @@ int process_int(va_list args, char flags, char length)
 		}
 	}
 
-	count += idigit((long)num, 10);
+	count += idigit_length((long)num, 10, width);
 
 	return (count);
 }
